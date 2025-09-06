@@ -11,6 +11,7 @@ Il met en œuvre :
 
 L’ensemble est orchestré dans **Apache Airflow**, et dockerisé pour être reproductible.
 
+---
 
 ## Dataset
 
@@ -19,6 +20,7 @@ L’ensemble est orchestré dans **Apache Airflow**, et dockerisé pour être re
 - **Source** : [NYC TLC Open Data](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page)  
 - **Champs utilisés** : heure de pickup, coordonnées pickup/dropoff, distance, vendor, payment type, passenger count.  
 
+---
 
 ## Architecture
 
@@ -42,6 +44,7 @@ NYC-TAXI-PIPELINE/
 └── README.md
 ```
 
+---
 
 ## Requirements
 
@@ -60,6 +63,7 @@ geopy
 scikit-learn==1.7.1   # alignée avec le modèle
 ```
 
+---
 
 ## Lancement
 
@@ -86,6 +90,7 @@ docker compose up -d
 - Airflow : [http://localhost:8088](http://localhost:8088)  
 - Streamlit : [http://localhost:8501](http://localhost:8501)  
 
+---
 
 ## Exemple d’utilisation
 
@@ -104,6 +109,7 @@ Interface pour saisir les adresses pickup/dropoff et prédire la durée estimée
   <img src="docs/images/a2.png" alt="streamlit" >>
 </p>
 
+---
 
 ## Améliorations possibles
 - Passage à un **exécuteur distribué** dans Airflow (Celery, Kubernetes) pour gérer plus de données.  
@@ -111,6 +117,7 @@ Interface pour saisir les adresses pickup/dropoff et prédire la durée estimée
 - Amélioration du modèle : gradient boosting, deep learning, ou modèles géospatiaux.  
 - Ajout de tests unitaires pour fiabiliser le pipeline.
 
+---
 
 ## Crédits
 - Développement : **Siham Bouzidi**  
