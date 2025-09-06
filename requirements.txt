@@ -1,0 +1,9 @@
+pandas
+pyarrow
+duckdb
+scikit-learn==1.7.1
+h3
+streamlit
+pydeck
+requests
+PyYAML

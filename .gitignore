@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.venv/
+.env
+
+# Logs
+logs/
+*.log
+
+# Airflow
+airflow_home/
+airflow.db
+webserver_config.py
+
+# Data & modèles
+data/
+artifacts/
+!data/.gitkeep
+!artifacts/.gitkeep
+
+# Streamlit
+.streamlit/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

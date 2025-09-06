@@ -1,0 +1,45 @@
+# évite d'envoyer des tonnes de fichiers inutiles au build
+.git
+.gitignore
+__pycache__/
+*.pyc
+*.pyo
+*.log
+*.tmp
+.DS_Store
+
+# dossiers Airflow pas utiles à Streamlit
+logs/
+dags/
+plugins/
+.airflow/
+
+# environnements locaux
+.venv/
+env/
+venv/
+
+# évite d'envoyer des tonnes de fichiers inutiles au build
+.git
+.gitignore
+__pycache__/
+*.pyc
+*.pyo
+*.log
+*.tmp
+.DS_Store
+
+# dossiers Airflow pas utiles à Streamlit
+logs/
+dags/
+plugins/
+.airflow/
+
+# environnements locaux
+.venv/
+env/
+venv/
+
+# gros fichiers de données (si tu les montes en volume)
+data/
+artifacts/

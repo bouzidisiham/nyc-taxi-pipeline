@@ -1,0 +1,26 @@
+# Dockerfile.streamlit
+FROM python:3.11-slim
+
+# Evite les prompts interactifs et accélère pip
+ENV PIP_NO_CACHE_DIR=1 PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
+
+# Dépendances système minimales (curl pour healthcheck)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+ && rm -rf /var/lib/apt/lists/*
+
+# Répertoire de travail dans le conteneur
+WORKDIR /app
+
+# Copie des requirements Streamlit et install
+COPY requirements_streamlit.txt .
+RUN pip install --no-cache-dir -r requirements_streamlit.txt
+
+COPY src/ ./src/
+
+
+# Port Streamlit
+EXPOSE 8501
+
+# Lancement de l'app (adresse 0.0.0.0 pour être accessible depuis l’hôte)
+CMD ["streamlit", "run", "src/serve_app.py", "--server.address=0.0.0.0", "--server.port=8501"]

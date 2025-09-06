@@ -1,0 +1,16 @@
+data:
+  base_dir: /opt/airflow/data
+  raw_dir: /opt/airflow/data/raw
+  features_dir: /opt/airflow/data/features
+duckdb:
+  path: /opt/airflow/data/nyc_taxi.duckdb   
+geo:
+  h3_res: 8
+features:
+  max_duration_min: 180
+  min_duration_min: 1
+model:
+  algorithm: rf
+  test_size: 0.2
+  random_state: 42
+  metrics: [mae, rmse, r2]

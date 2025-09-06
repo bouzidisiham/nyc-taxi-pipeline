@@ -1,0 +1,7 @@
+streamlit
+pandas
+pydeck
+joblib
+geopy
+scikit-learn==1.7.1
+

@@ -1,0 +1,81 @@
+x-airflow-common: &airflow-common
+  build:
+    context: .
+    dockerfile: Dockerfile
+  image: nyc-airflow:2.9.2-custom  
+
+  environment:
+    AIRFLOW_HOME: /opt/airflow
+    AIRFLOW__CORE__EXECUTOR: SequentialExecutor
+    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'False'
+    AIRFLOW__CORE__LOAD_EXAMPLES: 'False'
+    AIRFLOW__WEBSERVER__EXPOSE_CONFIG: 'True'
+    AIRFLOW__LOGGING__LOGGING_LEVEL: INFO
+    AIRFLOW__CORE__FERNET_KEY: ${FERNET_KEY}
+    PYTHONPATH: /opt/airflow
+    CONFIG_PATH: /opt/airflow/configs/config.yaml
+  volumes:
+    - airflow_home:/opt/airflow
+    - ./dags:/opt/airflow/dags
+    - ./logs:/opt/airflow/logs
+    - ./plugins:/opt/airflow/plugins
+    - ./src:/opt/airflow/src
+    - ./configs:/opt/airflow/configs
+    - ./data:/opt/airflow/data
+    - ./artifacts:/opt/airflow/artifacts
+
+services:
+  airflow-init:
+    <<: *airflow-common
+    env_file: [.env]
+    entrypoint: /bin/bash
+    command: ["-lc", "airflow db migrate && airflow users create --username \"$_AIRFLOW_WWW_USER_USERNAME\" --password \"$_AIRFLOW_WWW_USER_PASSWORD\" --firstname \"$_AIRFLOW_WWW_USER_FIRSTNAME\" --lastname \"$_AIRFLOW_WWW_USER_LASTNAME\" --role \"$_AIRFLOW_WWW_USER_ROLE\" --email \"$_AIRFLOW_WWW_USER_EMAIL\""]
+
+  airflow-webserver:
+    <<: *airflow-common
+    env_file: [.env]
+    command: webserver
+    ports:
+      - "${AIRFLOW_WEB_PORT:-8088}:8080"
+    restart: always
+    depends_on:
+      airflow-init:
+        condition: service_completed_successfully
+
+  airflow-scheduler:
+    <<: *airflow-common
+    env_file: [.env]
+    command: scheduler
+    restart: always
+    depends_on:
+      airflow-init:
+        condition: service_completed_successfully
+
+  streamlit:
+    build:
+      context: .
+      dockerfile: Dockerfile.streamlit
+    image: nyc-streamlit:latest
+    ports:
+      - "8501:8501"    
+    volumes:
+      - ./src:/app/src
+      - ./artifacts:/app/artifacts
+
+    environment:
+   
+      MAP_STYLE: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json"
+    depends_on:
+      airflow-init:
+        condition: service_completed_successfully
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8501/_stcore/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+
+
+volumes:
+  airflow_home:
