@@ -22,6 +22,19 @@ L’ensemble est orchestré dans **Apache Airflow**, et dockerisé pour être re
 
 ---
 
+## Résultats
+
+Sur un échantillon de données (janvier 2023, ~100k trajets) :
+
+- **Modèle entraîné** : Random Forest Regressor (300 arbres)
+- **MAE (Mean Absolute Error)** : ~1.6 minutes  
+- **RMSE (Root Mean Squared Error)** : ~5.5 minutes  
+- **R² (coefficient de détermination)** : ~0.77  
+
+Ces résultats montrent que le modèle capture bien les tendances générales de durée de trajet à New York, avec une erreur moyenne proche de 1 à 2 minutes.  
+L’application Streamlit permet de tester ces prédictions en saisissant directement des adresses de départ et d’arrivée.
+
+---
 ## Architecture
 
 ```
